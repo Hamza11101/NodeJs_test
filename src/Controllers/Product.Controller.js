@@ -27,7 +27,7 @@ exports.addOneProduct = async (req, res, next) => {
             discreption: req.body.discreption,
             quantity: req.body.quantity,
             price: req.body.price,
-            Order:[],
+            
             
         })
         await product.save()

@@ -2,7 +2,7 @@ const Order = require('../Models/Order.Model')
 
 exports.getAllOrder = async (req, res, next) => {
     try {
-        let order = await Product.find().populate('Product_List','Client')
+        let order = await Order.find().populate('Product_List Client')
         res.send(order);
     } catch (error) {
         next();
@@ -23,7 +23,7 @@ exports.addOneOrder = async (req, res, next) => {
 
     try {
         const order = new Order({
-            TotalPrice: req.body.Name,
+            TotalPrice: req.body.TotalPrice,
             Product_List: [],
             Client: [],
             
@@ -41,7 +41,7 @@ exports.addOneOrder = async (req, res, next) => {
 
 }
 
-exports.updateOneProduct = async (req, res, next) => {
+exports.updateOneOrder = async (req, res, next) => {
     try {
         let order = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true })
         res.send(order)
@@ -51,7 +51,7 @@ exports.updateOneProduct = async (req, res, next) => {
     }
 }
 
-exports.deleteOneProduct = async (req, res, next) => {
+exports.deleteOneOrder = async (req, res, next) => {
     try {
         let order = await Order.findByIdAndRemove(req.params.id);
         res.send(order);
@@ -65,7 +65,7 @@ exports.affectClient = async (req, res, next) => {
     try {
         const addOrderToClient = await Order.findByIdAndUpdate(
             req.params.idorder,
-            { $push: { Client: req.params.iduser } },
+        { Client: req.params.iduser } ,
             { new: true }
         )
         res.send(addOrderToClient);
@@ -80,7 +80,7 @@ exports.desaffectClient = async (req, res, next) => {
     try {
         const deleteOrderFromUser = await Order.findByIdAndRemove(
             req.params.iduser,
-            { $pull: { Client: req.params.iduser } },
+            { Client: null },
             { new: true }
         )
         res.send(deleteOrderFromUser);
@@ -95,7 +95,7 @@ exports.desaffectClient = async (req, res, next) => {
 exports.affectPoduct = async (req, res, next) => {
     try {
         const addOrderToProduct = await Order.findByIdAndUpdate(
-            req.params.idproduct,
+            req.params.idorder,
             { $push: { Product_List: req.params.idproduct } },
             { new: true }
         )
@@ -110,7 +110,7 @@ exports.affectPoduct = async (req, res, next) => {
 exports.desaffectProdect = async (req, res, next) => {
     try {
         const deleteOrderFromProduct = await Order.findByIdAndRemove(
-            req.params.iduser,
+            req.params.idproduct,
             { $pull: { Product_List: req.params.idproduct } },
             { new: true }
         )

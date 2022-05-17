@@ -22,8 +22,8 @@ const UserSchema = new schema({
         required:[true,"password field is requires"]
     },
     role:{
-        role:
-        "Client"
+        type:String,
+        role:"Client"
     },
     Order: {type: mongoose.Schema.Types.ObjectId, ref: 'Order'}
     

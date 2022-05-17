@@ -1,28 +1,28 @@
 const mongoose = require("mongoose")
-const schema=mongoose.Schema;
+const schema = mongoose.Schema;
 
 
 
 const OrderSchema = new schema({
-    TotalPrice:{
-        type:Number,
-        required:[true," first name field is requires"]
+    TotalPrice: {
+        type: Number,
+
     },
-    Product_List : [ {type: mongoose.Schema.Types.ObjectId, ref: 'Product'} ]
+    Product_List: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
     ,
 
-    Client:[ {type: mongoose.Schema.Types.ObjectId, ref: 'User'} ],
-   
-   
-    
-    },{
-        versionKey:false,
-       timestamps:true 
-    }
-    
-    )
+    Client: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 
 
-    const Order = mongoose.model('Order',OrderSchema)
+
+}, {
+    versionKey: false,
+    timestamps: true
+}
+
+)
+
+
+const Order = mongoose.model('Order', OrderSchema)
 
 module.exports = Order;
