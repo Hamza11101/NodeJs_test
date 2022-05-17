@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const UserController = require('../Controllers/User.Controllers')
+const passport = require('passport')
 
-router.get('/user',UserController.getAllUsers);
+
+
+router.get('/user',passport.authenticate('bearer', { session: false }),UserController.getAllUsers);
 
 
 router.get('/user/:id',UserController.getOneUser);

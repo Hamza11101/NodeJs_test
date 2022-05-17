@@ -1,4 +1,5 @@
 const Order = require('../Models/Order.Model')
+const Product = require('../Models/Product.Model')
 
 exports.getAllOrder = async (req, res, next) => {
     try {
@@ -22,16 +23,26 @@ exports.getOneOrder = async (req, res, next) => {
 exports.addOneOrder = async (req, res, next) => {
 
     try {
+        // const order = new Order({
+        //     TotalPrice: req.body.TotalPrice,
+        //     Product_List: [],
+        //     Client: [],
+            
+            
+        // })
+        // await order.save() 
+        // res.send(order)
+
+        req.body.Product_List.map(async(idProduct) =>{
+            await Product.findByIdAndUpdate(idProduct,{$inc: {quantity: -1}}, { new: true })
+        });
+
         const order = new Order({
             TotalPrice: req.body.TotalPrice,
-            Product_List: [],
-            Client: [],
-            
-            
+            Product_List: req.body.Product_List,
+            Client: req.body.Client
         })
-        await order.save()
-
-        // const user = await user.create(req.body)
+        await order.save() 
         res.send(order)
 
     } catch (error) {

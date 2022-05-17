@@ -14,10 +14,12 @@ const app = express();
 app.use(bodyParser.json());
 app.use(morgan('dev'))
 app.use(cors());
-
+// BearerStrategy
+require('./src/passport/bearerStrategy');
 
 app.use((err,req,res,next)=>{
     
+    console.log(err)
     res.status(422).send({error:err.message})
 });
 
@@ -26,9 +28,11 @@ app.use((err,req,res,next)=>{
 app.use('/api/v1',require('./src/routes/Product.route'));
 app.use('/api/v1',require('./src/routes/Order.route'));
 app.use('/api/v1',require('./src/routes/User.route'));
+app.use('/api/v1',require('./src/routes/Auth.route'));
 
 
 
-app.listen(port ,function(){
+
+app.listen(port ,()=>{
     console.log(`now listening for requests ${port}`);
 })

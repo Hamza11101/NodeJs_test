@@ -1,4 +1,5 @@
 const User = require('../Models/User.Model')
+const bcrypt = require("bcryptjs");
 
 exports.getAllUsers = async (req, res, next) => {
     try {
@@ -29,13 +30,25 @@ exports.addOneUser = async (req, res, next) => {
             Password: req.body.Password,
             
         })
+        const salt = await bcrypt.genSalt(10);
+        // now we set user password to hashed password
+        user.Password = await bcrypt.hash(user.Password, salt);
+        // console.log(register.passeword);
+        register.save();
+        // const user = await user.create(req.body)
+        //   res.send({message : "You account has been created successfully."});
+        
+
         await user.save()
 
         // const user = await user.create(req.body)
         res.send(user)
 
     } catch (error) {
-        next();
+        console.log(error);
+        const message = error.message ? error.message : 'Internal server error'
+        res.status(422).send({message: message})
+        // next();
 
     }
 
